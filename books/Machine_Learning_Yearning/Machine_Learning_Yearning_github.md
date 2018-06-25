@@ -6,7 +6,7 @@
     - [2 怎么使用这本书来帮助你的团队](#markdown-toc-3)
     - [3 前提条件和记号](#markdown-toc-4)
     - [4 规模驱动机器学习进步](#markdown-toc-5)
-- [Setting up development and test sets](#markdown-toc-6)
+- [建立dev和test集](#markdown-toc-6)
     - [5 你的dev和test数据集](#markdown-toc-7)
     - [6 你的dev和test集应该来自同样的分布](#markdown-toc-8)
     - [7 你的dev和test集的规模应该要多大？](#markdown-toc-9)
@@ -62,8 +62,6 @@
 ![book_front.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/book_front.png)
 
 ![book_front_2.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/book_front_2.png)
-
-[TOC]
 
 <div class="mk-toclify" id="markdown-toc-2"></div>
 ## 1. 为什么要研究机器学习策略 
@@ -152,7 +150,7 @@
 
 
 <div class="mk-toclify" id="markdown-toc-6"></div>
-# Setting up development and test sets 
+# 建立dev和test集
 
 <div class="mk-toclify" id="markdown-toc-7"></div>
 ## 5 你的dev和test数据集
