@@ -55,6 +55,10 @@
     - [44 优化验证试验](#markdown-toc-52)
     - [45 优化验证试验的一般形式](#markdown-toc-53)
     - [46 强化学习实例](#markdown-toc-54)
+- [端到端的深度学习](#markdown-toc-55)
+    - [47 端到端深度学习的兴起](#markdown-toc-56)
+    - [48 更多端到端学习的例子](#markdown-toc-57)
+    - [49 端到端学习的优点和缺点](#markdown-toc-58)
 
 <div class="mk-toclify" id="markdown-toc-1"></div> 
 
@@ -1167,3 +1171,107 @@ Case 2：如果不等式不成立：R(T-human) <= R(T-out)。这表明，R(.)给
 很多机器学习算法都通过这种“模式”来使用一个近似的搜索算法来优化评分函数Score-x(.)。有时候，没有指定的输入x，那么问题就变成只优化Score(.)了。在我们上述的例子，评分函数就是reward函数Score(T)=R(T)，搜索算法是强化学习算法，尝试执行一条好的轨迹T。
 
 这个例子和之前的例子的一个不同点在于，你不是和一个“最优”的输出对比，而是和一个人的水平表现输出T-human对比。我们假设T-human即使不是最优也是相当好。一般来说，只要你有比你当前的学习算法更优的输出y\*（在这个例子，是T-human）--即使y\*不是“最优”的输出，那么优化验证试验（Optimization Verification test）可以表明在现阶段，改进算法和改进评分函数，哪个更有价值。
+
+
+<div class="mk-toclify" id="markdown-toc-55"></div> 
+
+# 端到端的深度学习
+> 我曾经帮助构建了一个巨大的端到端的语音识别系统，叫深度语音，它可以很好地完成语音识别的端到端学习。但是，尽管许多团队在端到端的深度学习方面取得了巨大的成就，但这样的系统并不总是一个好主意。<br> 什么是端到端的深度学习？你应该什么时候使用它，什么时候应该避免使用呢？继续阅读，找出答案！ 
+
+<div class="mk-toclify" id="markdown-toc-56"></div> 
+
+## 47 端到端深度学习的兴起
+
+假设你希望构建一个系统来检查网上产品的评论，自动识别出这个评论者是喜欢还是不喜欢这个产品。比如说，你希望能识别出如下的评论是正向的评论：
+
+This is a great mop!
+
+如下的评论是负向的评论：
+
+This mop is low quality--I regret buying it
+
+识别正向或者负向评论的问题，我们称之为“情感分类”。
+
+构建这个系统，你可以构建这两个组件的一条“pipeline”：
+
+1. Parser: 对文本进行标注，识别最重要的单词*（一个Parser能够标注出远更丰富的内容，但是这里简化的描述足以解释端到端的深度学习）*。比如，你可以用Parser标记出所有的形容词和名词。因此，你可以得到下面的标注文本：
+
+![chapter_47_end-end_annotated_text.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_47_end-end_annotated_text.png)
+
+2. 情感分类器（Sentiment classifier）：一个学习算法，输入标注后的文本，预测出整体的情感类别。Parser的标注可以极大地帮助到这个算法。通过给形容词一个更高的权重，你的算法将能够很快就聚焦在一些重要的词，如“great”，而忽略那些不重要的词，如“this”。
+
+如下图，我们可以可视化这两个组件的的“pipeline”：
+
+![chapter_47_end-end_pipeline.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_47_end-end_pipeline.png)
+
+近期有种趋势，用一个单一的学习算法来取代这个“pipeline”系统。**端到端的学习算法**可以简单地输入原始的文本“This is a great mop!”，并尝试直接识别出它的情感类别。
+
+![chapter_47_end-end_pipeline_end_2_end.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_47_end-end_pipeline_end_2_end.png)
+
+神经网络常用于端到端的学习系统中。“端到端”这个词表明，我们要求算法直接从输入得到期望的输出。也就是说，算法直接连接着“输入端”到“输出端”。
+
+在那些数据丰富的问题中，端到端的学习系统已经取得了相当的成功。但它们并不总是一个好的选择。接下来的几章，我们会通过更多的端到端的例子给出建议，什么时候应该使用端到端的学习系统，什么时候不应该使用。
+
+<div class="mk-toclify" id="markdown-toc-57"></div> 
+
+## 48 更多端到端学习的例子
+
+假设你要构建一个语音识别系统。你可能会构建如下三个组件：
+
+![chapter_48_end_end_more_example_speech.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_48_end_end_more_example_speech.png)
+
+这些组件的工作方式如下：
+
+1. Compute features：抽取人工设计的特征，比如MFCC（​Mel-frequency cepstrum coefficients）特征，试着捕捉说话的内容，而忽略不相关的属性，比如说话的音高。
+2. Phoneme recognizer：一些语言学家认为，声音的基本单位叫做“音素”。例如，“keep”中的初始“K”音与“cake”中的“C”音的音素相同。这个组件尝试识别出音频片段中的音素。
+3. Final recognizer：接收识别出的音素的序列，尝试把音素序列转为输出文本。
+
+相反，一个端到端的系统可能输入的是一个音频片段，直接输出转译的文本。
+
+![chapter_48_end_end_more_example_speech_2.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_48_end_end_more_example_speech_2.png)
+
+至今，我们只描述了完全线性的“pipelines”的机器学习系统：输入顺序地从一个阶段传递给下一个阶段。"pipeline"可以更复杂。比如，下图是自动驾驶汽车的一个简单的架构图：
+
+![chapter_48_end_end_more_example_car.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_48_end_end_more_example_car.png)
+
+它有三个组件：1个通过摄像头影像来检测出其他的汽车;1个检测出行人；最后1个规划出可以规避其他汽车和行人的行车路径。
+
+"pipeline"中的每一个组件不是都必须涉及到机器学习算法。例如，最后的汽车路径规划步骤中的“机器人运动规划”，相关的文献算法有很多。但这些算法，很多并不涉及到机器学习。
+
+![chapter_48_end_end_more_example_car_2.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_48_end_end_more_example_car_2.png)
+
+即使端到端学习已经取得了广泛的成功，但它并不总是一个最好的方法。比如，端到端的语音识别表现地很出色，但我对汽车自动驾驶的端到端学习持怀疑态度。下面几章我会解释原因。
+
+<div class="mk-toclify" id="markdown-toc-58"></div> 
+
+## 49 端到端学习的优点和缺点
+
+考虑我们先前“pipeline”的语音识别系统的例子：
+
+![chapter_48_end_end_more_example_speech.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_48_end_end_more_example_speech.png)
+
+这个pipeline的很多部分都是“人工设计”的：
+
+- MFCCs是人工设计的音频特征集合。虽然这些特征提供了合理的音频输入概述，但它们也通过丢弃一些信息来简化了输入信号。
+- 音素是语言学家的发明。它们不能完美地代表音频声音。音素只是现实声音的一个差劲的近似，这导致使用了音素表示的算法，会限制语音识别系统的潜在效果。
+
+这些人工设计的组件限制了语音识别系统的潜在性能。然后，允许人工设计的组件也有一些优点：
+
+- MFCCs特征对语音的某些不影响到说话内容的属性（比如，说话的音高）有非常好的鲁棒性。因此，它们有助于简化学习算法的问题。
+- 音素是语音的一个合理的表示，它们同样能有助于学习算法理解基本的语音单元，因此能提高算法的性能。
+
+拥有更多的人工设计的组件通常能允许语音识别系统用更少的数据进行训练。从MFCCs和音素获得的人工设计的知识，是对我们算法从数据得到的知识的一种补充。当我们没有很多数据的时候，这些知识会很有用。
+
+现在，考虑端到端的学习系统。
+
+![chapter_48_end_end_more_example_speech_2.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_48_end_end_more_example_speech_2.png)
+
+这个系统缺少人工设计的知识。因此，当training集比较小的时候，它可能会比人工设计的pipeline系统表现地比更差。
+
+但是，当training集很大的时候，系统的性能不会受到MFCC或者音素表示的限制。如果这个学习算法是一个足够大的神经网络，并且有足够多的数据做训练，它有潜力做得很好，甚至可能接近最佳错误率。
+
+端到端学习系统在有大量标记了“两端（both ends）”的数据的时候，通常会表现地很好。在这个例子里，我们需要大量的（音频，转译文本）对。当这类数据不够的情况下，转到端到端学习系统需要非常的谨慎。
+
+如果你开发的机器学习算法的training集很小，你的算法大多数的知识只能来自你的人类直观知识，也就是你的“人工设计”的组件。
+
+如果你选择了不使用端到端的学习系统，你得决定你的pipeline包含了哪些步骤，以及它们的组合方式。在接下来的几章中，我们会对这些pipeline的设计提出一些建议。
