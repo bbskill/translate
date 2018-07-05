@@ -50,7 +50,7 @@
     - [40 从training集到dev集的泛化](#markdown-toc-47)
     - [41 识别偏差、方差和数据不匹配导致的误差](#markdown-toc-48)
     - [42 解决数据不匹配问题（data mismatch）](#markdown-toc-49)
-    - [43 人工数据合成](#markdown-toc-50)
+    - [43 人工数据合成（artificial data synthesis）](#markdown-toc-50)
 - [调试推理算法（Debugging inference algorithms）](#markdown-toc-51)
     - [44 优化验证试验](#markdown-toc-52)
     - [45 优化验证试验的一般形式](#markdown-toc-53)
@@ -59,6 +59,9 @@
     - [47 端到端深度学习的兴起](#markdown-toc-56)
     - [48 更多端到端学习的例子](#markdown-toc-57)
     - [49 端到端学习的优点和缺点](#markdown-toc-58)
+    - [50 选择pipeline：数据可用性](#markdown-toc-59)
+    - [51 选择pipeline：任务简单性](#markdown-toc-60)
+    - [52 直接学习富输出（rich outputs）](#markdown-toc-61)
 
 <div class="mk-toclify" id="markdown-toc-1"></div> 
 
@@ -67,6 +70,14 @@
 ![book_front.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/book_front.png)
 
 ![book_front_2.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/book_front_2.png)
+
+<br>
+
+----------
+
+> 在这些章节中，您将会学习到，如何在团队统一机器学习的优化策略和方向，也会学习到如何建立dev集和test集。关于如何建立dev/test集的建议已经随着机器学习向着更大的数据集发展而发生了变化，在现代的机器学习项目，你应该如何处理这种情况。
+
+<br>
 
 <div class="mk-toclify" id="markdown-toc-2"></div> 
 
@@ -394,6 +405,15 @@ Accuracy - 0.5*RunningTime
 
 **误差分析（error analysis）**是指对dev集中错误分类的样本进行分析的过程，通过这个过程，你可以理解这些错误分类的深层原因。它能帮助你更好对你的项目进行优先级的规划-就像这个例子-同时也能启发新的方向，我们将在下面讨论。接下来的几章还将介绍进行误差分析的最佳实践。
 
+<br>
+
+----------
+
+> 当你开始一个新的机器学习项目的时候，你如何找到最有价值的优化方向？这些章节描述了人工误差分析过程的机制，这将帮助你为你的项目找到最有价值的优化方向。
+>   
+> 请阅读这周的文章，学习更多（第15-19章）!
+
+<br>
 
 <div class="mk-toclify" id="markdown-toc-18"></div> 
 
@@ -518,6 +538,16 @@ dev集的第二部分，我们称之为Blackbox-dev集，这个集合大概有45
 - Eyeball-dev集的大小应该足够大，大到你的算法错误分类的样本数据足够多，以供你用来分析。对于大多数的应用来说，一个大小在1000-10000个样本的Blackbox-dev集足够大了。
 - 如果你的dev集不够大，把它当做Eyeball-dev集，进行人工错误分析（error analysis）、模型选择和超参数调优。
 
+<br>
+
+----------
+
+> 这周的章节，会教你如何通过偏差和方差分析，来优化你的ML项目的优先级排期。关于偏差/方差的旧观念，例如“偏差/方差的权衡”，在深度学习时代变得不那么有用了，现代的机器学习时代的准则需要更新。
+>   
+> 请阅读这周的文章，学习更多（第20-22章）!
+
+<br>
+
 <div class="mk-toclify" id="markdown-toc-23"></div> 
 
 # 偏差和方差 Bias and Variance
@@ -627,6 +657,15 @@ training集上的错误率已经很接近最佳的错误率14%了。因此，已
 
 在这几章，你学习到了如何通过training集和dev集的错误率，去估算可避免偏差/不可避免偏差。下一章将讨论如何利用这些认识和方法，去决定bias-reduce技术和variance-reduce技术的优先级。根据你项目当前的问题是高(可避免）偏差还是高方差，你应该采用不同的技术。请继续阅读。
 
+<br>
+
+----------
+
+> 一旦你确认了你的算法的问题是高偏差还是高方差，这些章节会讨论解决高偏差和高方差的一些技术。
+>   
+> 请阅读这周的文章，学习更多（第23-27章）!
+
+<br>
 
 <div class="mk-toclify" id="markdown-toc-27"></div> 
 
@@ -711,6 +750,16 @@ training集上的错误率已经很接近最佳的错误率14%了。因此，已
 - **基于误差分析，修改输入的特征**： 误差分析能够启发你新增新的特征，来帮助你的算法消除特定的错误类别。这些新的特征有助于减少偏差和方差。理论上，增加更多的特征会增加方差；如果你发现了这种情况，那么请使用正则化，这通常能消除方差的增加。
 - **修改模型结构**（比如神经网络的结构）：这会让你的模型更适合你的问题：这能同时减少偏差和方差。
 
+<br>
+
+----------
+
+> 上周，我们学习了一些技术来解决可避免偏差和方差。这周的文章会聚焦在学习曲线。它们是一种更具信息性和直观性的方法，可以帮助你找出有多少错误可以归因于可避免偏差或方差。
+>   
+> 请阅读这周的文章，学习更多（第28-30章）!
+
+<br>
+
 <div class="mk-toclify" id="markdown-toc-32"></div> 
 
 # 学习曲线（Learning curves） 
@@ -792,6 +841,16 @@ training集上的错误率已经很接近最佳的错误率14%了。因此，已
 
 在前面，我们只是通过图表中最右边的点，来测算training集和dev集的误差。这个点对应的是使用我们全部的样本数据。绘制完整的学习曲线可以使我们更全面地了解算法在不同训练集大小上的性能表现。
 
+<br>
+
+----------
+
+> 这周的文章会教你如何阅读学习曲线。当你的数据集很小或者很大的时候，我也会给出一些实用的建议来教你如何在这种情况下画学习曲线。
+>   
+> 请开心地阅读第31-32章!
+
+<br>
+
 <div class="mk-toclify" id="markdown-toc-36"></div> 
 
 ## 31 解读学习曲线：其他案例 
@@ -828,6 +887,18 @@ training集上的错误率已经很接近最佳的错误率14%了。因此，已
 除非你已经尝试绘制学习曲线，并得出结论由于学习曲线噪声太多，看不到潜在的趋势，否则我不会去理会这些技术中的任何一种。如果你的training集很大-比如超过10000个样本-并且你的样本类别的分布不是很悬殊，你很可能并不需要这些技术。
 
 最后，绘制一条学习曲线的计算成本可能很高。比如，你可能需要训练10个模型，从1000,2000，到10000个样本。训练小数据集的模型比大数据集的要快得多。因此，与其像上述一样线性地均匀平分training集的大小，不如分别用1000,2000,4000,6000和10000个样本来训练不同的模型，更加高效。这仍然可以让你清楚地了解学习曲线的趋势。当然，这个技术只有在训练模型的计算成本过高的时候才有意义的。
+
+<br>
+
+----------
+
+> 学习算法在越来越多的领域中，从语音识别到图像识别（在某些限定领域），都已经超越了人的水平表现。和人的水平表现竞争，已经成为深度学习世界的一项新的运动，但同时也是许多企业很宝贵的努力。
+> 
+>  **为什么你应该利用人的水平表现来提高ML的发展呢？当你超过人的水平表现的时候会发生什么？**
+>  
+>  请通过阅读第33-35章找出答案!
+
+<br>
 
 <div class="mk-toclify" id="markdown-toc-38"></div> 
 
@@ -886,6 +957,21 @@ training集上的错误率已经很接近最佳的错误率14%了。因此，已
 一般地说，只要你的dev集存在人们能够正确处理，而你的算法不能的数据，前面描述的很多技术都可以应用上，即使你的算法在整个dev/test集上的平均性能，已经超过了人的水平表现。
 
 很多重要的机器学习系统已经超过了人的水平表现了。比如，机器更能预测电影收视率，卡车开到某个地方的所需时间，或者是否批准某个贷款申请。一旦人也很难识别算法明显出错的例子，那么只剩下一小部分的技术有用处。 因此，在机器已经超越人类水平的问题上，进步通常比较缓慢，而当机器仍在追赶人类时，进步会更快。
+
+<br>
+
+----------
+
+> 我们在获取更多的数据集来训练我们的猫图片检测器，erm.，学习算法。但是，当你的training数据和test集的数据不是同一分布的时候，会产生什么问题呢？ <br> **在这周，你将会学到：** <br> 
+> 
+
+> - 什么时候你应该收集和你test集不同分布的training集数据。
+> - 当你有不同类型（分布）数据的时候，如何切分train/dev/test集。
+> - 如何判断在training中包含不同（分布）的数据是否是一个好主意的。
+
+>  请开心地阅读！请阅读第36-39章 
+
+<br>
 
 <div class="mk-toclify" id="markdown-toc-42"></div> 
 
@@ -978,6 +1064,15 @@ training集上的错误率已经很接近最佳的错误率14%了。因此，已
 
 通过对互联网图片赋予更低的权重，你不用建立一个足够庞大的必须同时在这两类图片数据上都表现很好的神经网络。只有当你怀疑额外的数据（互联网图片）和dev/test集具有非常不同的分布时，或者分布一样，但这种额外数据的数据量远比dev/test集（手机图片）大的多的时候，才需要进行这种类型的重新加权。
 
+
+<br>
+
+----------
+
+> 上周，我们讨论了当你的training集和dev/test集数据不是同一分布会产生的问题。你怎么知道你的算法的问题是否就是不能很好地泛化到不同分布的数据呢？ 我们把这个问题叫做**数据不匹配（data mismatch)**。<br> 在这周，你将会学习到如何诊断出算法的问题是否是数据不匹配，而不是偏差和方差。一旦你确定是数据不匹配的问题，你将会学习解决数据不匹配问题的一些技术，比如**人工数据合成（artificial data synthesis）**。继续阅读！ <br> 请阅读第40-43章 
+
+<br>
+
 <div class="mk-toclify" id="markdown-toc-47"></div> 
 
 ## 40 从training集到dev集的泛化 
@@ -1067,7 +1162,7 @@ training集上的错误率已经很接近最佳的错误率14%了。因此，已
 
 <div class="mk-toclify" id="markdown-toc-50"></div> 
 
-## 43 人工数据合成 
+## 43 人工数据合成（artificial data synthesis）
 
 你的语音系统需要更多的听起来好像是在车内录制的音频样本数据。与其在开车时收集大量音频数据，我们有更简单的方法来获得这些数据：人工合成。
 
@@ -1086,6 +1181,14 @@ training集上的错误率已经很接近最佳的错误率14%了。因此，已
 当合成样本数据的时候，请考虑一下你合成的是否是有代表性的样本。尽量避免给出合成数据属性，从而避免算法可以区分出合成和非合成的样本，例如所有的合成数据都来自20俩汽车设计的某一个，或者所有的合成音频都只来自那1个小时的汽车噪声。实际上，这个建议是很难付诸实施的。
 
 在进行数据合成时，为了产生显著的效果，我的团队有时会花费数周的时间来产生数据，产生细节足够接近真实分布的合成数据。如果你能把细节都弄得很正确，你可以瞬间获得远比以前大的多的training集。
+
+<br>
+
+----------
+
+> 用于调试语音识别系统、机器翻译系统和强化学习系统的AI的设计模式都有哪些？ <br> 我和我以前的博士生Pieter Abbeel和Adam Coates共同开发了一个直升机自动驾驶的强化学习项目，在这个项目中，我学习到一个技巧，这个技巧有助于改善所有的这些AI系统。继续阅读！ <br> 请阅读第44-46章 
+
+<br>
 
 <div class="mk-toclify" id="markdown-toc-51"></div> 
 
@@ -1172,11 +1275,17 @@ Case 2：如果不等式不成立：R(T-human) <= R(T-out)。这表明，R(.)给
 
 这个例子和之前的例子的一个不同点在于，你不是和一个“最优”的输出对比，而是和一个人的水平表现输出T-human对比。我们假设T-human即使不是最优也是相当好。一般来说，只要你有比你当前的学习算法更优的输出y\*（在这个例子，是T-human）--即使y\*不是“最优”的输出，那么优化验证试验（Optimization Verification test）可以表明在现阶段，改进算法和改进评分函数，哪个更有价值。
 
+<br>
+
+----------
+
+> 我曾经帮助构建了一个巨大的端到端的语音识别系统，叫深度语音，它可以很好地完成语音识别的端到端学习。但是，尽管许多团队在端到端的深度学习方面取得了巨大的成就，但这样的系统并不总是一个好主意。<br> 什么是端到端的深度学习？你应该什么时候使用它，什么时候应该避免使用呢？继续阅读，找出答案！ <br> 请阅读第47-49章 
+
+<br>
 
 <div class="mk-toclify" id="markdown-toc-55"></div> 
 
 # 端到端的深度学习
-> 我曾经帮助构建了一个巨大的端到端的语音识别系统，叫深度语音，它可以很好地完成语音识别的端到端学习。但是，尽管许多团队在端到端的深度学习方面取得了巨大的成就，但这样的系统并不总是一个好主意。<br> 什么是端到端的深度学习？你应该什么时候使用它，什么时候应该避免使用呢？继续阅读，找出答案！ 
 
 <div class="mk-toclify" id="markdown-toc-56"></div> 
 
@@ -1275,3 +1384,115 @@ This mop is low quality--I regret buying it
 如果你开发的机器学习算法的training集很小，你的算法大多数的知识只能来自你的人类直观知识，也就是你的“人工设计”的组件。
 
 如果你选择了不使用端到端的学习系统，你得决定你的pipeline包含了哪些步骤，以及它们的组合方式。在接下来的几章中，我们会对这些pipeline的设计提出一些建议。
+
+<br>
+----------
+
+> 上周，我们学习了端到端学习系统的优点和缺点。对于自动驾驶，我认为一个非端到端的系统实际上会更好些。但当你决定不用端到端学习系统的时候，你如何把一个机器学习的任务分解成更小的系统组件呢？ <br> 请阅读第50-52章 
+
+<br>
+
+<div class="mk-toclify" id="markdown-toc-59"></div> 
+
+## 50 选择pipeline：数据可用性
+
+当我们构建一个非端到端的pipeline系统的时候，pipeline中什么样的组件是好的设计？pipeline的设计会极大地影响到整个系统的性能。一个重要的因素是你是否可以很轻易地收集到用来训练每个组件的数据。
+
+比如，考虑这个自动驾驶的架构：
+
+![chapter_50_auto_car_architecture.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_50_auto_car_architecture.png)
+
+你可以使用机器学习算法来检测汽车和行人。此外，获取这些数据并不困难：有很多计算机视觉数据集都标记了大量的汽车和行人。你也可以使用众包（比如Amazon TealTurk）来获得更大的数据集。因此，我们可以相对容易地获得这些训练数据，来构建汽车检测器和行人检测器。
+
+相反，考虑一个纯端到端的系统：
+
+![chapter_50_auto_car_architecture_end_2_end.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_50_auto_car_architecture_end_2_end.png)
+
+为了训练这个系统，你需要大量的（图像，转向方向）的数据集对。让人们驾驶汽车并记录他们的转向方向来收集这样的数据是非常费时和昂贵的。你需要一个专门装备的车队，以及大量的驾驶行为来覆盖各种可能的场景。这个困难使得这个端到端系统很难训练。相对于获取这些（图像，转向方向）的数据，我们更容易获得大量标记了汽车或行人的图像的数据集。
+
+更一般地说，如果有大量的数据可以用于训练pineline中的“中间模块”（如汽车检测器或行人检测器），那么你可以考虑使用一个有着多个阶段的pipeline系统。这种pipeline的结构设计是更优的，因为你可以使用所有可用的数据来训练中间模块。
+
+在更多端到端的数据变得可用之前，我相信非端到端的系统方法更适用于自动驾驶：它的架构和目前数据的可用性更为匹配。
+
+<div class="mk-toclify" id="markdown-toc-60"></div> 
+
+## 51 选择pipeline：任务简单性
+
+当选择pineline时，除了数据可用性，你要考虑的第二个因素是：单个组件要解决的任务有多简单？你应该尽量选择容易构建或者容易学习的组件。但是，对于一个组件来说，“容易”学习，意味着什么？
+
+![chapter_51_component_easy_to_learn.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_51_component_easy_to_learn.png)
+
+考虑这些按照难度排序的机器学习任务：
+
+1. 对是否过度曝光的图片进行分类（如上面的例子）
+2. 对室内或室外拍摄的图片进行分类。
+3. 对是否包含猫的图片进行分类。	
+4. 对是否包含拥有黑白毛皮的猫的图片进行分类。
+5. 对是否包含暹罗猫（一种特定种类的猫）的图片进行分类。
+
+每个任务是一个二分类图片的问题：输入一张图片，输出0或者1。但是对于神经网络来说，这些任务中的前几个任务看起来“很容易”。你可以只通过更少的训练样本来完成这些更容易的分类任务。
+
+机器学习中，还没有一个很好的正式定义出是什么让机器学习的任务变得容易或者困难*（信息论中有“Kolmogorov Complexity”的概念，它表明，一个学习函数的复杂性是生成该函数的最短计算机程序的长度，然而，这一理论概念在AI几乎没有实际应用。参见：[https://en.wikipedia.org/wiki/Kolmogorov_complexity](https://en.wikipedia.org/wiki/Kolmogorov_complexity "https://en.wikipedia.org/wiki/Kolmogorov_complexity")）*。随着深度学习和多层神经网络的兴起，我们有时说，如果一个机器学习任务可以用更少的计算步骤来执行（和浅层神经网络对比），那么它是“容易的”，如果它需要更多的计算步骤（需要一个更深层的神经网络），那么它是“困难的”。但这些都是非正式的定义。
+
+如果你能够把一个复杂的任务，将其分解成更简单的子任务，然后通过在每个子任务的步骤中显性的编码（coding），你相当于对算法赋予了某种先验知识，从而帮助它更有效地完成学习的任务。
+
+![chapter_51_siamese_cat.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_51_siamese_cat.png)
+
+假设你在构建一个siamese猫检测器。这是一个纯端到端的系统的架构：
+
+![chapter_51_siamese_cat_end_to_end.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_51_siamese_cat_end_to_end.png)
+
+相反，你可以选择使用2个步骤的pineline系统：
+
+![chapter_51_siamese_cat_pipeline.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_51_siamese_cat_pipeline.png)
+
+第一步骤（猫检测器）检测出图片中的所有的猫。
+
+![chapter_51_siamese_cat_pipeline_detect_all_cat.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_51_siamese_cat_pipeline_detect_all_cat.png)
+
+然后，第二步骤把步骤一检测出来是猫的每张剪辑的图片，（每次一个）传给cat breed分类器，最后如果检测到的猫有任何一只是siamese猫，就输出1。
+
+![chapter_51_siamese_cat_pipeline_detect_output_1.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_51_siamese_cat_pipeline_detect_output_1.png)
+
+与只使用标签0/1来训练的一个纯端到端的分类器相比，pipeline系统中的两个组件--猫检测器和cat breed分类器，看起来更容易学习，并且需要少的多的数据*（如果你对物体检测算法比较熟悉的话，你会知道，它们不只是用0/1图像标签来学习，而是用作为训练数据的一部分来提供的bounding boxes来训练。对它们的讨论超出了本章的范围。如果你想了解关于这些算法的更多知识，请参见Coursera中的深度学习专题[http://deeplearning.ai](http://deeplearning.ai "http://deeplearning.ai")）*。
+
+作为最后一个例子，让我们重新回到自动驾驶的pipeline系统。
+
+![chapter_51_autonomouse_driving_pipeline.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_51_autonomouse_driving_pipeline.png)
+
+通过这个pipeline，我们可以看出，这个系统算法有3个关键的步骤：（1）检测出其他的汽车，（2）检测出行人，和（3）规划一条行驶的路径。此外，每一个步骤都是一个相对简单的的功能函数-因此可以用比纯端到端系统更少的数据来学习。
+
+总的来说，当决定pipeline系统中的组件设计的时候，应该尝试去构建这样的一个pipeline系统，系统中每个组件都是一个相对“简单”的功能函数，因此每个组件都可以只使用少量的数据来学习和训练。
+
+<div class="mk-toclify" id="markdown-toc-61"></div> 
+
+## 52 直接学习富输出（rich outputs）
+
+一个图片分类器算法输入一张图片x，输出一个表示一个对象类别的整数。算法能输出一个完整的描述这张图片的句子吗？
+
+比如：
+
+![chapter_52_image_to_sentence.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_52_image_to_sentence.png)
+
+传统的有监督学习算法学习的函数h：X->Y，输出y通常是一个整数或者一个实数。比如：
+
+| 问题          	|        X          	|       Y             	|
+| ------------- |:-------------------:	|:------------------:	|
+| 垃圾邮件分类  	|      邮件         		|     垃圾/非垃圾（0/1) 	|
+| 图像分类   	|      图像         		|     整数标签         	|
+| 房价预测    	|      房子的特征    	|    美元价格          	|
+| 产品推荐	   	|      产品&用户特征  	|	  购买的几率			|
+
+端到端深度学习中，其中一个最让人兴奋的发展是，我们可以直接学习比一个数字更为复杂的对象y。在上面的图像-标题识别的例子中，你可以让一个神经网络输入一张图片（x），然后直接输出一个标题（y）。
+
+这里有更多的例子：
+
+| 问题      		 	|        X          	|       Y         	|   引用论文实例				|
+| :---------------:	|:-------------------:	|:-------------:	|:-----------------: 		|
+| 图像生成标题    	|      图像         	|     文本		   	|	Mao et al.,2014 			|
+| 机器翻译        	|      英语文本       	|    法语文本    	| Suskever et al., 2014		|
+| 问题自动回答    	|      （文本，问题）对	|   答案文本    		| Bordes et al., 2015		|
+| 语音识别        	|      音频      		|    转译文本   		| Hannun et al., 2015		|
+| 语音引擎TTS     	|      文本特征      	|    音频		    | van der Oord et al., 2016	|
+
+这是深度学习的一种越来越快的趋势：当你有正确标注的（输入，输出）对，即便输出是一句话，一张图片，音频，或者是其他比单个数字更丰富的形式，你有时候也可以使用端到端的深度学习系统。
