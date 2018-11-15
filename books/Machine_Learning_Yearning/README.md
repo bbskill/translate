@@ -21,7 +21,8 @@
 
 官网：[http://www.mlyearning.org/](http://www.mlyearning.org/)
 
-中文翻译：[NG_Machine_Learning_Yearning_fulltext_cn.pdf](./Machine_Learning_Yearning_github.md)
+中文翻译：[NG_Machine_Learning_Yearning_fulltext_cn.md](./Machine_Learning_Yearning_github.md)
+
 英文原版：[NG_Machine_Learning_Yearning_fulltext.pdf](./NG_Machine_Learning_Yearning_fulltext.pdf)
 
 ## 更新记录
