@@ -1302,13 +1302,219 @@ Case 2：如果不等式不成立：R(T-human) <= R(T-out)。这表明，R(.)给
 
 | 问题      		 	|        X          	|       Y         	|   引用论文实例				|
 | :---------------:	|:-------------------:	|:-------------:	|:-----------------: 		|
-| 图像生成标题    	|      图像         	|     文本		   	|	Mao et al.,2014 			|
+| 图像生成标题    	|      图像         		|     文本		   	|	Mao et al.,2014 			|
 | 机器翻译        	|      英语文本       	|    法语文本    	| Suskever et al., 2014		|
 | 问题自动回答    	|      （文本，问题）对	|   答案文本    		| Bordes et al., 2015		|
 | 语音识别        	|      音频      		|    转译文本   		| Hannun et al., 2015		|
 | 语音引擎TTS     	|      文本特征      	|    音频		    | van der Oord et al., 2016	|
 
 这是深度学习的一种越来越快的趋势：当你有正确标注的（输入，输出）对，即便输出是一句话，一张图片，音频，或者是其他比单个数字更丰富的形式，你有时候也可以使用端到端的深度学习系统。
+
+<br>
+
+----------
+
+> 下面是machine learning yearning的最后几章。你会学习到机器学习pipeline上的误差分析：如果你有一个复杂的系统，如自动驾驶系统，这个系统由很多子组件组成，那么你怎么决定先去处理哪个子组件？我希望这几篇文章能够帮助你和你的团队更加有效地推进机器学习项目。
+
+<br>
+
+# Error analysis by parts
+
+## 53 对pipeline每部分的误差分析
+
+假设你的系统是一个有着复杂的pipeline的机器学习系统，你希望提高这个系统的性能。你应该去优化pipeline中的哪个部分？通过把错误归因到某些pipeline的子系统，你可以更好地安排你的工作。
+
+让我们用之前的Siamese猫分类器举例子：
+
+![chapter_53_cat_classifier_pipeline.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_53_cat_classifier_pipeline.png)
+
+第一部分，是一个猫检测器，从图片中检测并裁剪出猫。第二部分是Siamese猫分类器，检测是否是Siamese猫。改进这两个部分中的任何一个，都可能需要花费几年的时间。你怎么决定选择去改进哪个部分？
+
+通过对每个部分组件进行**误差分析**,你可以尝试把算法导致的每个错误都归因于pipeline的某个部分（有时候是两个部分）。举个例子，算法错误地把下面这张图片判断为没有包含Siamese猫，虽然这张图片的正确的label是1.
+
+![chapter_53_cat_mis_classifier.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_53_cat_mis_classifier.png)
+
+接下来，我们手动地检查一下，这两个部分的算法分别做了什么？假设猫检测器对这张图片的识别结果如下：
+
+![chapter_53_cat_mis_classifier_Siamese.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_53_cat_mis_classifier_Siamese.png)
+
+这表示，猫检测器认为下图是一只猫。
+
+![chapter_53_cat_mis_classifier_Siamese_part.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_53_cat_mis_classifier_Siamese_part.png)
+
+接着，Siamese猫分类器正确地识别出上图没有包含一只Siamese猫。因此Siamese猫分类器是没错的。它输入一堆石头，输出一个很合理的y=0的label。事实上，人们预测上述的裁剪图片也会得出y=0的结果。因此，你可以很明确地把这个错误归因于是猫检测器的问题。
+
+如果，从另一方面说，猫检测器输出的是下图：
+
+![chapter_53_cat_mis_classifier_Siamese_correct.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_53_cat_mis_classifier_Siamese_correct.png)
+
+那么你可以很明确地确定猫检测器没问题，有问题的是Siamese猫分类器。
+
+假如你分析了100个错误case，发现有90个是归因于猫检测器，10个是归因于Siamese猫分类器。那么你应该很明确地优先去优化猫检测器。
+
+而且，你已经找到了90个猫检测器的输出错误bounding图片的case了，那么你可以对90个case来进行更深层次的误差分析，用来提升你的猫检测器。
+
+一个非正式的关于如何把错误case归因于pipeline的某个部分的方法如下所示：观察每一部分的输出，看看能否决定哪一个部分的输出错了。这种非正式的方法可能是你所需要的。但在下一章，你也会看到一种更为正式的错误归因的方式。
+
+## 54 把错误归因到pipeline的每个部分
+
+让我们继续使用之前的例子：
+
+![chapter_53_cat_classifier_pipeline.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_53_cat_classifier_pipeline.png)
+
+假设猫检测器输出的是下图的bound：
+
+![chapter_54_error_attrbuite_wrong_cropped.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_54_error_attrbuite_wrong_cropped.png)
+
+Siamese猫分类器输入的是如下的裁剪图片，然后不正确地输出y=0（表示这图片没有包含猫）。
+
+![chapter_54_error_attrbuite_wrong_cropped_wrong_classifier.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_54_error_attrbuite_wrong_cropped_wrong_classifier.png)
+
+猫检测器犯了个大错，然而，一个有经验的人类仍然可以从错误裁剪的图片中识别出Siamese猫。所以，我们应该把这个错误归因于猫检测器还是Siamese猫分类器呢，或者是两者？这是有争议的。
+
+如果这些有争议的case数目比较小，你可以把这个错误归因到任意一方，得到的结果都差不多。但是，这里有一个更正式的测试，让你更明确地把错误归因于某一方：
+
+1. 用人工标注的bounding box来替换猫检测器的输出
+![chapter_54_error_attrbuite_wrong_cropped_2.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_54_error_attrbuite_wrong_cropped_2.png)
+2. 通过Siamese猫分类器跑一下对应的被裁剪的图片。如果Siamese猫分类器分类错了，就把这个错误归因于Siamese猫分类器。否则，把这个错误归因于猫检测器。
+
+换句话说，跑一个实验，把Siamese猫分类器的输入变成"完美"的输入，这样会有两种情况：
+
+1. 情况1：即使输入了完美的输入，Siamese猫分类器仍然错误地输出y=0。在这种情况下，很明显，是Siamese猫分类器的错误。
+2. 情况2：输入了完美的输入，Siamese猫分类器正确地输出了y=1。这表示，如果猫检测器输出了一个更准确的输出，那么整个系统的输出就会变正确。那么，把这个错误归因于猫检测器。
+
+通过对dev集中错误分类的图片进行这种分析，你可以毫无争议地把每个错误归因于系统的每个部分。这种方法能够允许你预估出系统每部分的错误比例，从而可以据此来决定你的优化方向.
+
+## 55 错误归因的一般情形
+
+如下是错误归因的一般步骤。假设某系统的pipeline有三个步骤A，B和C，A的输出结果是B的输入，B的输出结果是C的输入。
+
+![chapter_54_error_attrbuite_general_steps.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_54_error_attrbuite_general_steps.png)
+
+对于该系统在dev集上的每个错误：
+
+1. 人工地把A的输出变成“完美的”输出（比如，正确的猫框框图片），然后用这个输出，运行剩余的B和C。如果系统给出的是正确的结果，那么我们可以说，如果A能够输出更准确的结果，那么整体系统的输出就会变得准确。因此，你可以把这个错误归因于A。否则，跳转到步骤2。
+2. 人工地把B的输出变成“完美的”输出。如果系统这个时候输出正确的结果，那么，把这个错误归因于B，否则，跳转到步骤3。
+3. 把这个错误归因到C。
+
+让我们看一个更复杂的例子：
+
+![chapter_54_error_attrbuite_general_steps_more_complex.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_54_error_attrbuite_general_steps_more_complex.png)
+
+假设你的自动驾驶系统使用的是如上类似的pipeline，那么你怎么使用错误分析的方法来决定应该优化哪个组件？
+
+你可以把这三个组件映射成A、B和C，如下所示：
+
+A： 汽车检测组件
+B： 行人检测组件
+C： 汽车行车规划组件
+
+根据上述的过程，假设你在封闭的道路上测试你的汽车，并找到这样的case，相比比熟练的驾驶员，你的汽车选择了一个更颠簸的方向。在自驾车的世界中，这种case通常被称为**情景（scenario）**。然后，你会如下做：
+
+1. 人工地把A（汽车检测组件）的输出变成“完美的”输出（比如，手动告诉其他的车在哪里），然后用这个输出，运行剩余的B和C，不过让C（行车规划组件）使用的是A的“完美”输出。如果系统能够规划出一条更好的路径，那么我们可以说，如果A能够输出更准确的结果，那么整体系统的输出就会变得准确。因此，你可以把这个错误归因于A。否则，跳转到步骤2。
+2. 人工地把B（行人检测组件）的输出变成“完美的”输出。如果系统这个时候输出正确的结果，那么，把这个错误归因于B，否则，跳转到步骤3。
+3. 把这个错误归因到C。
+
+ML pipeline的组件可以根据有向无环图（DAG）进行排序，这意味着您应该能够以某种固定的从左到右的顺序计算它们，而后面的组件应该只依赖于之前组件的输出。只要组件关系A-＞B-> C顺序遵循DAG排序，那么上述的错误分析的方法就是正确的。如果交换A和B，可能会得到稍微不同的结果。
+
+A： 行人检测组件（之前是汽车检测组件）
+B： 汽车检测组件（之前是行人检测组件）
+C： 行车路线规划组件
+
+但是，这种分析的结果仍然是有效的，并为你的优化方向提供了很好的指导。
+
+## 56 对各组件的错误分析和与人的水平表现比较
+
+对一个学习算法进行错误分析和使用数据科学来分析机器学习系统的错误类似，都是为了得出下一步该做什么。在最基本的情况，对各组件的错误分析，能够告诉我们哪个组件的性能最值得花费最大的力气来提升。
+
+假设你有一个某个网站的用户购买记录的数据集。一个数据科学家可能有很多方法来分析这些数据。她可能得到很多结论，比如该网站是否需要提升价格，如何通过不同的营销活动获得的客户的终身价值。分析数据集并没有一个“正确”的方法，并且我们能得到很多可能有用的推论见解。同样地，错误分析也没有一个“正确”的方法。通过这些章节，你可以学习到很多最常见的设计模式，来对你的机器学习系统进行剖析，得出有效的结论，但是你应该也要自由地尝试其他分析错误的方法。
+
+让我们回到自动驾驶的例子，一个汽车检测算法输出附近的车辆的位置（可能还有速度），一个行人检测算法输出附近的行人，这两者的输出最后用来做汽车的行车路线的规划。
+
+![chapter_54_error_attrbuite_general_steps_more_complex.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_54_error_attrbuite_general_steps_more_complex.png)
+
+为了去debug这个pipeline，而不是严格地按照之前章节描述的步骤，你可以更非正式地提如下的问题：
+
+1. 汽车检测组件离人类水平表现相比，还差多远？
+2. 行人检测组件离人类水平表现相比，还差多远？
+3. 整个系统离人类水平表现相比，还差多远？ 这里的人类水平表现假设人类只能在看到这两个检测组件的输入的情况下去规划驾驶路线（而不是看到摄像头图片）。换句话说，在同样的输入情况下，行车路线规划组件的性能，离人类水平表现相比，还差多远？
+
+如果你发现某一个组件的性能，离人类水平表现差得很远，那么，现在，您有一个很好的理由来关注如何提高该组件的性能。
+
+当我们试图让人类做的事情变成自动化的时候，错误分析的方法最有效，因此我们可以用人类水平表现进行基准测试。我们前面的大多数例子都隐含了这种假设。如果你正在构建一个ML系统，系统的最终输出或者某些中间组件执行的事情，即使是人类也无法做得很好，那么这些方法的某一些将不再适用。
+
+这也是解决人类可以解决的问题的另一个优点--你有更强大的的错误分析的工具，然后你可以更有效地对你团队工作进行规划。
+
+## 57 发现有缺陷的ML pipeline
+
+如果每个组件的性能已经和人类水平表现齐平或者相差不多，但整个系统的性能却远不如人类水平表现，那该怎么办？这通常表示，你的系统的pipeline是有缺陷的，需要重新设计。错误分析也同样能帮你确定是否需要重新设计你的pipeline。
+
+![chapter_54_error_attrbuite_general_steps_more_complex.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_54_error_attrbuite_general_steps_more_complex.png)
+
+在之前的章节，我们提出了三个问题，这三个组件的性能是否都和人类水平表现齐平。假设这三个问题的答案都是“是的”。
+
+1. 汽车检测组件从摄像头图片中识别汽车的能力和人类水平表现齐平（大概地）。
+2. 行人检测组件从摄像头图片中识别行人的能力和人类水平表现齐平（大概地）。
+3. 在只输入前两个组件的输出的情况下做行车路线规划（而不是输入摄像头图片），行车路线规划组件和人类水平表现在一个水平上。
+
+然而，你的整个系统的性能却远比人的水平表现要差。比如，看到摄像头图片的人类能够规划出好得多的行车路线。你能得到怎样的结论？
+
+唯一有可能的结论是这个ML pipline是有缺陷的。在这种例子中，行车路线规划组件在**它的输入**的情况下表现得很好，但这些输入并没有包含足够的信息。你应该问问自己，为了汽车能够行驶地很好，除了之前那两个pipeline组件的输入外，还有什么其他的信息是必要的。换句话说，	对于一个有经验的人类司机来说，什么其他的信息是必需的?
+
+比如说，假设你注意到，一个人类司机需要知道车道线的位置。那表明你应该像下图一样设计你的pipeline（*在上述的自动驾驶例子，理论上我们可以把原始的摄像头图片输入到行车路线规划组件，来解决这个问题。但是，这个会违反第51章描述的“任务简单化”的设计原则，因为行车路线规划组件需要输入原始的摄像图图片，并需要解决一个很复杂的任务。这就是为什么增加一个车道线检测组件是一个更好的选择--它可以帮助行车路线规划组件获得之前缺失但很重要的车道线信息，并且可以避免要构建一个很复杂的模块。*）：
+
+![chapter_57_Spotting_a_flawed_ML_pipeline.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_57_Spotting_a_flawed_ML_pipeline.png)
+
+总而言之，如果你的系统中每一个组件已经具有了人的水平表现的性能了，但整个系统的性能还是比不上人的水平表现(记住，对比的人类应该和组件一样有同样的输入），那么你的pipeline是有缺陷的，应该重新设计。
+
+
+# 结论
+
+## 58 打造一个超级英雄团队 - 让你的队友阅读本书
+
+祝贺你阅读完这本书！
+
+在章节2，我们提到，这本书能够帮忙你打造你的超级英雄团队。
+
+![chapter_58_Building_a_superhero_team.png](https://raw.githubusercontent.com/bbskill/translate/master/books/Machine_Learning_Yearning/images/chapter_58_Building_a_superhero_team.png)
+
+唯一比成为一名超级英雄更好的是成为超级英雄团队的一员。我希望你能把这本书推荐给你的朋友和队友，并帮助他们打造其他超级英雄团队！
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
