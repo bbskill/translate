@@ -62,9 +62,9 @@
     - [50 选择pipeline：数据可用性](#markdown-toc-59)
     - [51 选择pipeline：任务简单性](#markdown-toc-60)
     - [52 直接学习富输出（rich outputs）](#markdown-toc-61)
-- [Error analysis by parts](#markdown-toc-62)
-    - [53 对pipeline每部分的误差分析](#markdown-toc-63)
-    - [54 把错误归因到pipeline的每个部分](#markdown-toc-64)
+- [对系统的每个组件做错误分析](#markdown-toc-62)
+    - [53 对pipeline的每个组件的错误分析](#markdown-toc-63)
+    - [54 把错误归因到pipeline的每个组件](#markdown-toc-64)
     - [55 错误归因的一般情形](#markdown-toc-65)
     - [56 对各组件的错误分析和与人的水平表现比较](#markdown-toc-66)
     - [57 发现有缺陷的ML pipeline](#markdown-toc-67)
@@ -1515,11 +1515,13 @@ This mop is low quality--I regret buying it
 
 <div class="mk-toclify" id="markdown-toc-62"></div> 
 
-# Error analysis by parts
+# 对系统的每个组件做错误分析
+
+<br>
 
 <div class="mk-toclify" id="markdown-toc-63"></div> 
 
-## 53 对pipeline每部分的误差分析
+## 53 对pipeline的每个组件的错误分析
 
 假设你的系统是一个有着复杂的pipeline的机器学习系统，你希望提高这个系统的性能。你应该去优化pipeline中的哪个部分？通过把错误归因到某些pipeline的子系统，你可以更好地安排你的工作。
 
@@ -1557,7 +1559,7 @@ This mop is low quality--I regret buying it
 
 <div class="mk-toclify" id="markdown-toc-64"></div> 
 
-## 54 把错误归因到pipeline的每个部分
+## 54 把错误归因到pipeline的每个组件
 
 让我们继续使用之前的例子：
 
