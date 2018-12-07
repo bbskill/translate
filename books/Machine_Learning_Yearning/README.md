@@ -15,13 +15,15 @@
 
 关于《Machine Learning Yearning》的翻译，有人把它翻译为机器学习要领（要领和Yearning谐音），不过我觉得和作者本意相差过大，我觉得作者本意是想用简单朴素的例子揭开机器学习调参调模型的神秘感，满足人们对机器学习的渴望向往学习的愿望，所以我觉得还是命名为《机器学习的渴望》比较好。
 
-在得知NG会出“Machine Learning Yearning, 见猎心喜，于是边学习边翻译，以便自己后续复习，也仅供学习交流。
+在得知NG会出“Machine Learning Yearning, 见猎心喜，于是边学习边翻译，以便自己后续复习，也仅供学习交流。翻译字数整体字数：6.4万字
 
 因为水平有限，且是业余时间翻译，如有遗漏错误，欢迎斧正。
 
 官网：[http://www.mlyearning.org/](http://www.mlyearning.org/)
 
-中文翻译：[NG_Machine_Learning_Yearning_fulltext_cn.md](./Machine_Learning_Yearning_github.md)
+GitBook中文翻译： [NG_Machine_Learning_Yearning_fulltext_cn_gitbook](http://iambbskill.cn/gitbook/Machine_Learning_Yearning/)
+
+中文翻译：[NG_Machine_Learning_Yearning_fulltext_cn.md](./Machine_Learning_Yearning_github_cn.md)
 
 英文原版：[NG_Machine_Learning_Yearning_fulltext.pdf](./NG_Machine_Learning_Yearning_fulltext.pdf)
 
@@ -30,7 +32,7 @@
 - 2018.06.25：完成1~46章
 - 2018.06.29：完成47~49章
 - 2018.07.05：完成50~52章
-- 2018.11.15：完成53~58章
+- 2018.11.15：完成53~58章（全书完）
 
 ## 本书提纲
 
